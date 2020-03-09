@@ -17,6 +17,7 @@
 using System.ComponentModel.Composition;
 using QuantConnect.Interfaces;
 using QuantConnect.Packets;
+using QuantConnect.Securities;
 
 namespace QuantConnect.Lean.Engine.Alpha
 {
@@ -43,7 +44,8 @@ namespace QuantConnect.Lean.Engine.Alpha
         /// <param name="algorithm">The algorithm instance</param>
         /// <param name="messagingHandler">Handler used for sending insights</param>
         /// <param name="api">Api instance</param>
-        void Initialize(AlgorithmNodePacket job, IAlgorithm algorithm, IMessagingHandler messagingHandler, IApi api);
+        /// <param name="orderEventProvider">Algorithms order event provider</param>
+        void Initialize(AlgorithmNodePacket job, IAlgorithm algorithm, IMessagingHandler messagingHandler, IApi api, IOrderEventProvider orderEventProvider);
 
         /// <summary>
         /// Invoked after the algorithm's Initialize method was called allowing the alpha handler to check

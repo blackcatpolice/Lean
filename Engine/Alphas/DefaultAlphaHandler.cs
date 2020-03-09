@@ -28,7 +28,9 @@ using QuantConnect.Configuration;
 using QuantConnect.Interfaces;
 using QuantConnect.Lean.Engine.Alpha;
 using QuantConnect.Logging;
+using QuantConnect.Orders;
 using QuantConnect.Packets;
+using QuantConnect.Securities;
 using QuantConnect.Statistics;
 using QuantConnect.Util;
 
@@ -101,7 +103,8 @@ namespace QuantConnect.Lean.Engine.Alphas
         /// <param name="algorithm">The algorithm instance</param>
         /// <param name="messagingHandler">Handler used for sending insights</param>
         /// <param name="api">Api instance</param>
-        public virtual void Initialize(AlgorithmNodePacket job, IAlgorithm algorithm, IMessagingHandler messagingHandler, IApi api)
+        /// <param name="orderEventProvider">Algorithms order event provider</param>
+        public virtual void Initialize(AlgorithmNodePacket job, IAlgorithm algorithm, IMessagingHandler messagingHandler, IApi api, IOrderEventProvider orderEventProvider)
         {
             // initializing these properties just in case, doesn't hurt to have them populated
             Job = job;
@@ -303,7 +306,7 @@ namespace QuantConnect.Lean.Engine.Alphas
 
                         if (insights.Count > 0)
                         {
-                            _messagingHandler.Send(new AlphaResultPacket(_job.AlgorithmId, _job.UserId, insights));
+                            _messagingHandler.Send(new AlphaResultPacket(_job.AlgorithmId, _job.UserId, insights, new List<OrderEvent>()));
                         }
                     }
                     catch (Exception err)
